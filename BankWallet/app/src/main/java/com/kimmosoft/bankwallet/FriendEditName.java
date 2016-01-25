@@ -31,6 +31,7 @@ public class FriendEditName extends AppCompatActivity {
         this.validator = new Validator();
         this.realmHelper = new RealmHelper(getApplicationContext());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Edit name");
         EditText nameText = (EditText) findViewById(R.id.edit_name_editText);
         nameText.setText(this.realmHelper.getFriend(friendid).getName());
         button = (Button) findViewById(R.id.button_save_name);

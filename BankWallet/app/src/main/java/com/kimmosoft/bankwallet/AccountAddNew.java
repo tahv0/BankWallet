@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.kimmosoft.bankwallet.src.BankAccount;
 import com.kimmosoft.bankwallet.src.RealmHelper;
 import com.kimmosoft.bankwallet.src.Validator;
 
@@ -28,13 +29,24 @@ public class AccountAddNew extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         this.realmHelper = new RealmHelper(getApplicationContext());
        // this.intent = new Intent(getApplicationContext(),AccountListActivity.class);
-        friendid = getIntent().getExtras().getInt("friendid");
-        //this.intent.putExtra("friendid",friendid);
+        if (getIntent().getExtras().containsKey("friendid")){
+            friendid = getIntent().getExtras().getInt("friendid");
+            actionBar.setTitle("Add new account for "+ realmHelper.getFriend(friendid).getName());
+        }
+        else{
+            EditText ibanText = (EditText) findViewById(R.id.iban_editText);
+            EditText declarationText = (EditText) findViewById(R.id.iban_declaration_editText);
+            BankAccount account = realmHelper.getAccount(getIntent().getExtras().getInt("accountid"));
+            ibanText.setText( account.getIban());
+            declarationText.setText(account.getDeclaration());
+            actionBar.setTitle("Edit account");
+        }
         this.validator = new Validator();
 
         if (actionBar != null){
             //actionBar.setTitle(realmHelper.getFriend(friendtId).getName() + "'s accounts");
             actionBar.setDisplayHomeAsUpEnabled(true);
+
         }
         button = ( Button) findViewById(R.id.account_add_button);
         button.setOnClickListener(new saveButtonActivity());
@@ -51,7 +63,6 @@ public class AccountAddNew extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            Log.d("cyka", "blyat2");
             finish();
             return true;
         }
@@ -69,7 +80,12 @@ public class AccountAddNew extends AppCompatActivity {
                         .setAction("Action", null).show();
                 return;
             }
-            realmHelper.addAccount( friendid, ibanText.getText().toString(), declarationText.getText().toString());
+            if (getIntent().getExtras().containsKey("friendid")) {
+                realmHelper.addAccount(friendid, ibanText.getText().toString(), declarationText.getText().toString());
+            }
+            else{
+                realmHelper.editAccount(getIntent().getExtras().getInt("accountid"),ibanText.getText().toString(),declarationText.getText().toString());
+            }
 
         }
 

@@ -106,7 +106,7 @@ public class AccountListActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpFromSameTask(this);
+            finish();
             return true;
         }
         if (id == R.id.action_name_settings)
@@ -177,6 +177,7 @@ public class AccountListActivity extends AppCompatActivity {
                         }
                     });
 
+
                     alert.show();
 
 
@@ -186,13 +187,13 @@ public class AccountListActivity extends AppCompatActivity {
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    /*
+
                         Context context = v.getContext();
-                        Intent intent = new Intent(context, AccountDetailActivity.class);
-                        intent.putExtra(AccountDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        Intent intent = new Intent(context, AccountAddNew.class);
+                        intent.putExtra("accountid", holder.mItem.getId());
 
                         context.startActivity(intent);
-                    */
+
                 }
             });
 

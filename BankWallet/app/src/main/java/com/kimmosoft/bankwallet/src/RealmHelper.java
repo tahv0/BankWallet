@@ -1,5 +1,6 @@
 package com.kimmosoft.bankwallet.src;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.util.Log;
 
@@ -67,6 +68,12 @@ public class RealmHelper {
         RealmResults<Friend> result1 = query.findAll();
         return result1.first();
     }
+    public BankAccount getAccount(int id){
+
+        RealmQuery<BankAccount> query = realm.where(BankAccount.class);
+        BankAccount account =  query.equalTo("id", id).findFirst();
+        return account;
+    }
     public void addAccount(int friendid,String iban,String declaration){
         realm.beginTransaction();
         RealmQuery<Friend> query = realm.where(Friend.class);
@@ -98,6 +105,14 @@ public class RealmHelper {
         RealmQuery<Friend> query = realm.where(Friend.class);
         Friend friend =  query.equalTo("id", friendid).findFirst();
         friend.setName(name);
+        realm.commitTransaction();
+    }
+    public void editAccount(int accountid, String iban, String declaration){
+        realm.beginTransaction();
+        RealmQuery<BankAccount> query = realm.where(BankAccount.class);
+        BankAccount account =  query.equalTo("id", accountid).findFirst();
+        account.setIban(iban);
+        account.setDeclaration(declaration);
         realm.commitTransaction();
     }
 }

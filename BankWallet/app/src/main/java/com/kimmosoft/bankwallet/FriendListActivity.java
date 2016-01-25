@@ -95,7 +95,7 @@ public class FriendListActivity extends AppCompatActivity {
                     .inflate(R.layout.friend_list_content, parent, false);
             return new ViewHolder(view);
         }
-     
+
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {

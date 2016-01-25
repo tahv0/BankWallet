@@ -33,6 +33,7 @@ public class FriendAddNew extends AppCompatActivity {
         if (actionBar != null){
             //actionBar.setTitle(realmHelper.getFriend(friendtId).getName() + "'s accounts");
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Add new friend");
         }
         button = ( Button) findViewById(R.id.firend_new_save_button);
         button.setOnClickListener(new saveButtonActivity());
@@ -49,7 +50,7 @@ public class FriendAddNew extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpFromSameTask(this);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
