@@ -27,7 +27,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.kimmosoft.bankwallet.FriendListActivity" />
         </activity>
-        <activity android:name=".FriendAddNew"></activity>
+        <activity android:name=".FriendAddNew"
+            android:parentActivityName=".FriendListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kimmosoft.bankwallet.FriendListActivity" />
+        </activity>
     </application>
 
 </manifest>
