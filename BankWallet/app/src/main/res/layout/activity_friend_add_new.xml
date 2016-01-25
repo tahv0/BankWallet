@@ -42,16 +42,6 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/firend_name_checkBox"
-            android:layout_toStartOf="@+id/firend_name_checkBox" />
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/firend_name_checkBox"
-            android:checked="false"
-            android:clickable="false"
-            android:layout_alignTop="@+id/friend_name_editText"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
@@ -60,27 +50,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/iban_editText"
             android:hint="IBAN (i.e FI4250001510000023)"
-            android:layout_alignTop="@+id/iban_checkBox"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/iban_checkBox"
-            android:layout_toStartOf="@+id/iban_checkBox" />
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/iban_checkBox"
-            android:checked="false"
-            android:layout_below="@+id/friend_name_editText"
+            android:layout_above="@+id/Iban_declaration_editText"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="39dp" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Iban_declaration_editText"
             android:hint="Optional: declaration for IBAN"
-            android:layout_below="@+id/iban_editText"
+            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignRight="@+id/iban_editText"
@@ -91,8 +71,18 @@
             android:layout_height="wrap_content"
             android:text="SAVE"
             android:id="@+id/firend_new_save_button"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_below="@+id/iban_editText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="131dp" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:spinnerMode="dialog"
+            android:layout_below="@+id/friend_name_editText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
 </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -72,8 +72,8 @@ public class FriendListActivity extends AppCompatActivity {
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         for (int i = 1; i <= 15; i++) {
-            realmHelper.addFriend("matti näsä", "fi22929292929","tili",i);
-            realmHelper.addFriend("irmeli näsä", "fi22929292929","tili",i);
+            realmHelper.addFriend("matti näsä", "fi22929292929","tili");
+            realmHelper.addFriend("irmeli näsä", "fi22929292929","tili");
         }
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(realmHelper.getBankAccounts()));
     }

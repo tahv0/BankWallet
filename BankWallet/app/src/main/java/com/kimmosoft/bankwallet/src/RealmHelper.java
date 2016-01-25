@@ -44,7 +44,7 @@ public class RealmHelper {
         }
     }*/
 
-    public  void addFriend(String name, String iban,String declaration, int id) {
+    public  void addFriend(String name, String iban,String declaration) {
 
         realm.beginTransaction();
         Friend friend  = realm.createObject(Friend.class);
