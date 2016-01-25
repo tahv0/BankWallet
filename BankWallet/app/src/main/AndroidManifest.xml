@@ -27,11 +27,28 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.kimmosoft.bankwallet.FriendListActivity" />
         </activity>
-        <activity android:name=".FriendAddNew"
+        <activity
+            android:name=".FriendAddNew"
             android:parentActivityName=".FriendListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.kimmosoft.bankwallet.FriendListActivity" />
+        </activity>
+        <activity
+            android:name=".AccountAddNew"
+            android:parentActivityName=".AccountListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kimmosoft.bankwallet.AccountListActivity" />
+        </activity>
+        <activity
+            android:name=".FriendEditName"
+            android:label="@string/title_activity_friend_edit_name"
+            android:parentActivityName=".AccountListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kimmosoft.bankwallet.AccountListActivity" />
         </activity>
     </application>
 

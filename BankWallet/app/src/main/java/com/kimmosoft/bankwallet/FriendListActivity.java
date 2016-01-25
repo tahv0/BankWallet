@@ -1,6 +1,8 @@
 package com.kimmosoft.bankwallet;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -52,7 +54,7 @@ public class FriendListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              Intent intent = new Intent(getApplicationContext(),FriendAddNew.class);
+                Intent intent = new Intent(getApplicationContext(),FriendAddNew.class);
                 startActivity(intent);
             }
         });
@@ -93,23 +95,55 @@ public class FriendListActivity extends AppCompatActivity {
                     .inflate(R.layout.friend_list_content, parent, false);
             return new ViewHolder(view);
         }
+     
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(mValues.get(position).getName());
-            holder.mContentView.setText(String.valueOf(( mValues.get(position).getAccounts().size()) + " IBAN(s)"));
+            holder.mContentView.setText(String.valueOf((mValues.get(position).getAccounts().size()) + " IBAN(s)"));
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, AccountListActivity.class);
-                        intent.putExtra("id", holder.mItem.getId());
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, AccountListActivity.class);
+                    intent.putExtra("friendid", holder.mItem.getId());
 
-                        context.startActivity(intent);
+                    context.startActivity(intent);
 
+                }
+            });
+            holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+                    alert.setTitle("Confirmation");
+                    alert.setMessage("Are you sure to delete this friend");
+                    alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            realmHelper.removeFriend(holder.mItem.getId());
+                            recreate();
+                            dialog.dismiss();
+
+                        }
+                    });
+                    alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+                        }
+                    });
+
+                    alert.show();
+
+
+                    return true;
                 }
             });
         }

@@ -1,11 +1,11 @@
 package com.kimmosoft.bankwallet;
 
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,26 +15,28 @@ import android.widget.EditText;
 import com.kimmosoft.bankwallet.src.RealmHelper;
 import com.kimmosoft.bankwallet.src.Validator;
 
-import java.math.BigInteger;
-import java.util.regex.Pattern;
-
-public class FriendAddNew extends AppCompatActivity {
-    private Button button;
+public class AccountAddNew extends AppCompatActivity {
     private RealmHelper realmHelper;
     private Validator validator;
+    private Button button;
+ //   private Intent intent;
+    private int friendid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend_add_new);
+        setContentView(R.layout.activity_account_add_new);
         ActionBar actionBar = getSupportActionBar();
         this.realmHelper = new RealmHelper(getApplicationContext());
+       // this.intent = new Intent(getApplicationContext(),AccountListActivity.class);
+        friendid = getIntent().getExtras().getInt("friendid");
+        //this.intent.putExtra("friendid",friendid);
         this.validator = new Validator();
-        validator.validIBAN("FI4250001510000023");
+
         if (actionBar != null){
             //actionBar.setTitle(realmHelper.getFriend(friendtId).getName() + "'s accounts");
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        button = ( Button) findViewById(R.id.firend_new_save_button);
+        button = ( Button) findViewById(R.id.account_add_button);
         button.setOnClickListener(new saveButtonActivity());
 
     }
@@ -49,34 +51,28 @@ public class FriendAddNew extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpFromSameTask(this);
+            Log.d("cyka", "blyat2");
+            finish();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
     public class saveButtonActivity implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            EditText nameText = (EditText) findViewById(R.id.friend_name_editText);
             EditText ibanText = (EditText) findViewById(R.id.iban_editText);
             EditText declarationText = (EditText) findViewById(R.id.iban_declaration_editText);
 
-            if (!validator.validName(nameText.getText().toString())){
-                Snackbar.make(v, "Not valid name", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                return;
-
-            }
             if (!validator.validIBAN(ibanText.getText().toString())){
                 Snackbar.make(v, "Not valid IBAN. It must be valid iban and it contains 2 letters and 16 digits", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 return;
             }
-            realmHelper.addFriend(nameText.getText().toString(), ibanText.getText().toString(), declarationText.getText().toString());
+            realmHelper.addAccount( friendid, ibanText.getText().toString(), declarationText.getText().toString());
 
         }
 
 
     }
-
 }

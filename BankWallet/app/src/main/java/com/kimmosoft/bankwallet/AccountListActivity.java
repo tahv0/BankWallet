@@ -1,7 +1,11 @@
 package com.kimmosoft.bankwallet;
 
+import android.app.AlertDialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +14,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -40,7 +46,7 @@ public class AccountListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
     RealmHelper realmHelper;
-    int friendtId;
+    int friendid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,20 +55,28 @@ public class AccountListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.accountlist_toolbar);
         setSupportActionBar(toolbar);
 
+
         realmHelper = new RealmHelper(getApplicationContext());
-        friendtId = getIntent().getExtras().getInt("id");
+        friendid = getIntent().getExtras().getInt("friendid");
+
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null){
-            actionBar.setTitle(realmHelper.getFriend(friendtId).getName() + "'s accounts");
+            actionBar.setTitle(realmHelper.getFriend(friendid).getName() + "'s accounts");
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(getApplicationContext(),AccountAddNew.class);
+                intent.putExtra("friendid", friendid);
+                //startActivity(intent);
+               // startActivityFromChild(this,intent,2);
+
+                startActivity(intent);
             }
+
         });
         View recyclerView = findViewById(R.id.account_list);
         assert recyclerView != null;
@@ -76,7 +90,11 @@ public class AccountListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -91,11 +109,26 @@ public class AccountListActivity extends AppCompatActivity {
             NavUtils.navigateUpFromSameTask(this);
             return true;
         }
+        if (id == R.id.action_name_settings)
+        {
+            Intent intent = new Intent(this,FriendEditName.class);
+            intent.putExtra("friendid",friendid);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RESULT_OK && resultCode == RESULT_OK && data != null) {
+            friendid = data.getExtras().getInt("friendid");
+            recreate();
+            Log.d("onActivityResult","back from intent!");
+
+        }
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(realmHelper.getFriend(friendtId).getAccounts()));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(realmHelper.getFriend(friendid).getAccounts()));
     }
 
     public class SimpleItemRecyclerViewAdapter
@@ -115,11 +148,41 @@ public class AccountListActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(mValues.get(position).getDeclaration());
             holder.mContentView.setText(mValues.get(position).getIban());
+            holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+                    alert.setTitle("Confirmation");
+                    alert.setMessage("Are you sure to delete account");
+                    alert.setPositiveButton("YES", new  DialogInterface.OnClickListener() {
 
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            realmHelper.removeAccount(friendid,mValues.get(position).getId());
+                            recreate();
+                            dialog.dismiss();
+
+                        }
+                    });
+                    alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+                        }
+                    });
+
+                    alert.show();
+
+
+                    return true;
+                }
+            });
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -132,6 +195,7 @@ public class AccountListActivity extends AppCompatActivity {
                     */
                 }
             });
+
         }
 
         @Override

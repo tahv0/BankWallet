@@ -63,8 +63,41 @@ public class RealmHelper {
     }
     public  Friend getFriend(int id){
         RealmQuery<Friend> query = realm.where(Friend.class);
-        query.equalTo("id",id);
+        query.equalTo("id", id);
         RealmResults<Friend> result1 = query.findAll();
         return result1.first();
+    }
+    public void addAccount(int friendid,String iban,String declaration){
+        realm.beginTransaction();
+        RealmQuery<Friend> query = realm.where(Friend.class);
+        RealmResults<Friend> results =  query.equalTo("id", friendid).findAll();
+        BankAccount account = realm.createObject(BankAccount.class);
+        account.setIban(iban);
+        account.setDeclaration(declaration);
+        account.setId(realm.where(BankAccount.class).max("id").intValue() + 1);
+        results.first().getAccounts().add(account);
+
+        realm.commitTransaction();
+    }
+    public void removeAccount(int friendid, int accountid){
+        realm.beginTransaction();
+        RealmQuery<Friend> query = realm.where(Friend.class);
+        Friend friend =  query.equalTo("id", friendid).findFirst();
+        friend.getAccounts().remove(realm.where(BankAccount.class).equalTo("id", accountid).findFirst());
+        realm.commitTransaction();
+    }
+    public void removeFriend(int friendid){
+        realm.beginTransaction();
+        RealmQuery<Friend> query = realm.where(Friend.class);
+        Friend friend =  query.equalTo("id", friendid).findFirst();
+        friend.removeFromRealm();
+        realm.commitTransaction();
+    }
+    public void saveNewName(int friendid, String name){
+        realm.beginTransaction();
+        RealmQuery<Friend> query = realm.where(Friend.class);
+        Friend friend =  query.equalTo("id", friendid).findFirst();
+        friend.setName(name);
+        realm.commitTransaction();
     }
 }
