@@ -13,15 +13,15 @@ public  class Friend extends RealmObject {
     private int id;
     @Required
     private String name;
-    private RealmList<BankAccount> accounts;
+    private RealmList<BankAccount> bankAccounts;
 
 
     public void setId(int id){this.id = id;};
     public void setName(String name){this.name = name;};
     public int getId(){return this.id;};
     public String getName(){return this.name;};
-    public RealmList<BankAccount> getAccounts() {return this.accounts;};
-    public void setAccounts(RealmList<BankAccount> value){this.accounts.addAll(value);};
+    public RealmList<BankAccount> getBankAccounts() {return this.bankAccounts;};
+    public void setBankAccounts(RealmList<BankAccount> value){this.bankAccounts.addAll(value);};
 
 
 }

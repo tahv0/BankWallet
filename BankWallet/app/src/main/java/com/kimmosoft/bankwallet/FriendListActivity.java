@@ -86,7 +86,7 @@ public class FriendListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(mValues.get(position).getName());
-            holder.mContentView.setText(String.valueOf((mValues.get(position).getAccounts().size()) + " IBAN(s)"));
+            holder.mContentView.setText(String.valueOf((mValues.get(position).getBankAccounts().size()) + " IBAN(s)"));
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

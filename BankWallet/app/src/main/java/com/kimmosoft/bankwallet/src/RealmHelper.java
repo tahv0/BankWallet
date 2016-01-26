@@ -42,7 +42,7 @@ public class RealmHelper {
         account.setId(realm.where(BankAccount.class).max("id").intValue()+1);
         account.setDeclaration(declaration);
         list.add(account);
-        friend.setAccounts(list);
+        friend.setBankAccounts(list);
         realm.commitTransaction();
     }
     public  Friend getFriend(int id){
@@ -65,14 +65,17 @@ public class RealmHelper {
         account.setIban(iban);
         account.setDeclaration(declaration);
         account.setId(realm.where(BankAccount.class).max("id").intValue() + 1);
-        results.first().getAccounts().add(account);
+        results.first().getBankAccounts().add(account);
         realm.commitTransaction();
     }
     public void removeAccount(int friendid, int accountid){
         realm.beginTransaction();
         RealmQuery<Friend> query = realm.where(Friend.class);
         Friend friend =  query.equalTo("id", friendid).findFirst();
-        friend.getAccounts().remove(realm.where(BankAccount.class).equalTo("id", accountid).findFirst());
+        friend.getBankAccounts().remove(realm.where(BankAccount.class).equalTo("id", accountid).findFirst());
+        realm.commitTransaction();
+        realm.beginTransaction();
+        this.getAccount(accountid).removeFromRealm();
         realm.commitTransaction();
     }
     public void removeFriend(int friendid){

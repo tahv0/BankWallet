@@ -101,7 +101,7 @@ public class BankAccountListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(realmHelper.getFriend(friendid).getAccounts()));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(realmHelper.getFriend(friendid).getBankAccounts()));
     }
 
     public class SimpleItemRecyclerViewAdapter
