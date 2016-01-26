@@ -41,13 +41,13 @@ public class FriendAddNew extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-
+            //back button
             finish();
             return true;
         }
         else if (id == R.id.action_save){
+            //save button
             saveButtonActivity(this.findViewById(android.R.id.content));
-
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -58,11 +58,10 @@ public class FriendAddNew extends AppCompatActivity {
         return true;
     }
     public void saveButtonActivity (View v){
-
+            //when save-button pressed, check textinput fields and save if fields valid
             EditText nameText = (EditText) findViewById(R.id.friend_name_editText);
             EditText ibanText = (EditText) findViewById(R.id.iban_editText);
             EditText declarationText = (EditText) findViewById(R.id.iban_declaration_editText);
-
             if (!validator.validName(nameText.getText().toString())){
                 Snackbar.make(v, "Not valid name", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -76,6 +75,7 @@ public class FriendAddNew extends AppCompatActivity {
 
             }
             realmHelper.addFriend(nameText.getText().toString(), ibanText.getText().toString(), declarationText.getText().toString());
+            finish(); // Intent complete, new friend added and automatically rollback to previous view.
 
         }
 

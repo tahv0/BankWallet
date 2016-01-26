@@ -13,6 +13,7 @@ import io.realm.RealmResults;
  * Created by tahv0 on 25-Jan-16.
  */
 public class RealmHelper {
+    //check src/BankAccount and src/Friend to understand models
     public RealmHelper(Context context) {
         this.realm = Realm.getInstance(context);
     }
@@ -43,7 +44,6 @@ public class RealmHelper {
         list.add(account);
         friend.setAccounts(list);
         realm.commitTransaction();
-        Log.d("Bankaccounts", String.valueOf(getBankAccounts().size()));
     }
     public  Friend getFriend(int id){
         RealmQuery<Friend> query = realm.where(Friend.class);
@@ -66,7 +66,6 @@ public class RealmHelper {
         account.setDeclaration(declaration);
         account.setId(realm.where(BankAccount.class).max("id").intValue() + 1);
         results.first().getAccounts().add(account);
-
         realm.commitTransaction();
     }
     public void removeAccount(int friendid, int accountid){

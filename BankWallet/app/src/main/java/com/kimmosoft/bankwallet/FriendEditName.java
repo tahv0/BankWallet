@@ -53,8 +53,8 @@ public class FriendEditName extends AppCompatActivity {
             }
 
             realmHelper.saveNewName(friendid, nameText.getText().toString());
-
-            recreate();
+            finish(); //Save completed. Back to previous view.
+            //recreate();
 
 
 

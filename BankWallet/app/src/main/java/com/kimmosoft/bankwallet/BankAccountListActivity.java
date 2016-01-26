@@ -37,15 +37,10 @@ public class BankAccountListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_account_list);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.accountlist_toolbar);
         setSupportActionBar(toolbar);
-
-
         realmHelper = new RealmHelper(getApplicationContext());
         friendid = getIntent().getExtras().getInt("friendid");
-
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null){
             actionBar.setTitle(realmHelper.getFriend(friendid).getName() + "'s accounts");
@@ -55,9 +50,9 @@ public class BankAccountListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //move to add new backaccounts
                 Intent intent = new Intent(getApplicationContext(),BankAccountAddNew.class);
                 intent.putExtra("friendid", friendid);
-
                 startActivity(intent);
             }
 
@@ -83,12 +78,13 @@ public class BankAccountListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-
+            //back button
             finish();
             return true;
         }
         if (id == R.id.action_name_settings)
         {
+            //edit friend's name
             Intent intent = new Intent(this,FriendEditName.class);
             intent.putExtra("friendid",friendid);
             startActivity(intent);
@@ -98,9 +94,8 @@ public class BankAccountListActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_OK && resultCode == RESULT_OK && data != null) {
-            friendid = data.getExtras().getInt("friendid");
             recreate();
-            Log.d("onActivityResult", "back from intent!");
+
 
         }
     }
@@ -130,9 +125,11 @@ public class BankAccountListActivity extends AppCompatActivity {
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(mValues.get(position).getDeclaration());
             holder.mContentView.setText(mValues.get(position).getIban());
+            //long press to delete
             holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
+                    //AlertDialog to ask confirmation for deleting data
                     AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
                     alert.setTitle("Confirmation");
                     alert.setMessage("Are you sure to delete account");
@@ -154,14 +151,11 @@ public class BankAccountListActivity extends AppCompatActivity {
                             dialog.dismiss();
                         }
                     });
-
-
                     alert.show();
-
-
                     return true;
                 }
             });
+            //short press to edit account
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -169,7 +163,6 @@ public class BankAccountListActivity extends AppCompatActivity {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, BankAccountAddNew.class);
                         intent.putExtra("accountid", holder.mItem.getId());
-
                         context.startActivity(intent);
 
                 }

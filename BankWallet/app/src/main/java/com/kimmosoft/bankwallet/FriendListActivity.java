@@ -35,7 +35,6 @@ public class FriendListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.friendlist_toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
@@ -63,10 +62,6 @@ public class FriendListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        for (int i = 1; i <= 15; i++) {
-            realmHelper.addFriend("matti näsä", "fi22929292929","tili");
-            realmHelper.addFriend("irmeli näsä", "fi22929292929","tili");
-        }
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(realmHelper.getBankAccounts()));
     }
 
@@ -96,11 +91,10 @@ public class FriendListActivity extends AppCompatActivity {
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    //short click to open friends accounts
                     Context context = v.getContext();
                     Intent intent = new Intent(context, BankAccountListActivity.class);
                     intent.putExtra("friendid", holder.mItem.getId());
-
                     context.startActivity(intent);
 
                 }
@@ -108,6 +102,7 @@ public class FriendListActivity extends AppCompatActivity {
             holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
+                    //ask confirmation for deletion
                     AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
                     alert.setTitle("Confirmation");
                     alert.setMessage("Are you sure to delete this friend");
@@ -118,14 +113,12 @@ public class FriendListActivity extends AppCompatActivity {
                             realmHelper.removeFriend(holder.mItem.getId());
                             recreate();
                             dialog.dismiss();
-
                         }
                     });
                     alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
                             dialog.dismiss();
                         }
                     });
