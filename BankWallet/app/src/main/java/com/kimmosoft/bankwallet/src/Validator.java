@@ -27,7 +27,7 @@ public class Validator {
         Boolean retval = false;
         iban = iban.replaceAll("\\s+","");
         //Shortest iban is in Norway and longest possible is 34 chars.
-        if (!Pattern.matches("[a-zA-Z]{2}\\d{11,30}", iban)) {
+        if (!Pattern.matches("[a-zA-Z]{2}\\d{13,32}", iban)) {
             return false;
         }
         String countrycode = iban.substring(0,2);
