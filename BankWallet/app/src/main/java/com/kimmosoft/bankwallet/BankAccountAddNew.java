@@ -1,12 +1,9 @@
 package com.kimmosoft.bankwallet;
 
-import android.content.Intent;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +13,7 @@ import com.kimmosoft.bankwallet.src.BankAccount;
 import com.kimmosoft.bankwallet.src.RealmHelper;
 import com.kimmosoft.bankwallet.src.Validator;
 
-public class AccountAddNew extends AppCompatActivity {
+public class BankAccountAddNew extends AppCompatActivity {
     private RealmHelper realmHelper;
     private Validator validator;
     private Button button;
@@ -25,10 +22,9 @@ public class AccountAddNew extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_add_new);
+        setContentView(R.layout.activity_bank_account_add_new);
         ActionBar actionBar = getSupportActionBar();
         this.realmHelper = new RealmHelper(getApplicationContext());
-       // this.intent = new Intent(getApplicationContext(),AccountListActivity.class);
         if (getIntent().getExtras().containsKey("friendid")){
             friendid = getIntent().getExtras().getInt("friendid");
             actionBar.setTitle("Add new account for "+ realmHelper.getFriend(friendid).getName());
@@ -44,7 +40,6 @@ public class AccountAddNew extends AppCompatActivity {
         this.validator = new Validator();
 
         if (actionBar != null){
-            //actionBar.setTitle(realmHelper.getFriend(friendtId).getName() + "'s accounts");
             actionBar.setDisplayHomeAsUpEnabled(true);
 
         }
@@ -56,13 +51,7 @@ public class AccountAddNew extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. Use NavUtils to allow users
-            // to navigate up one level in the application structure. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
+
             finish();
             return true;
         }

@@ -23,27 +23,11 @@ public class RealmHelper {
     }
 
     private Realm realm;
-    /**
-     * An array of sample (dummy) items.
-     */
+
     public RealmResults<Friend> getBankAccounts(){
         RealmQuery<Friend> query = realm.where(Friend.class);
         return query.findAll();
     }
-
-    /**
-     * A map of sample (dummy) items, by ID.
-     */
-    //  public static final Map<String, BankAccountItem> ITEM_MAP = new HashMap<String, BankAccountItem>();
-
-   /* private static final int COUNT = 25;
-
-    {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
-            addFriend("matti näsä", "fi22929292929");
-        }
-    }*/
 
     public  void addFriend(String name, String iban,String declaration) {
 
@@ -59,7 +43,6 @@ public class RealmHelper {
         list.add(account);
         friend.setAccounts(list);
         realm.commitTransaction();
-        // assert getBankAccounts().size() == 0: "none lol";
         Log.d("Bankaccounts", String.valueOf(getBankAccounts().size()));
     }
     public  Friend getFriend(int id){

@@ -20,7 +20,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.kimmosoft.bankwallet.AccountAddNew">
+    tools:context=".BankAccountAddNew">
 
 
     <RelativeLayout
@@ -46,7 +46,6 @@
             android:id="@+id/iban_declaration_editText"
             android:hint="Optional: declaration for IBAN"
             android:layout_below="@+id/iban_editText"
-            android:layout_marginTop="60dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"

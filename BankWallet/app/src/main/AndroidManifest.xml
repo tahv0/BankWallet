@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AccountListActivity"
+            android:name=".BankAccountListActivity"
             android:label="@string/title_account_list"
             android:parentActivityName=".FriendListActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -35,20 +35,20 @@
                 android:value="com.kimmosoft.bankwallet.FriendListActivity" />
         </activity>
         <activity
-            android:name=".AccountAddNew"
-            android:parentActivityName=".AccountListActivity">
+            android:name=".BankAccountAddNew"
+            android:parentActivityName=".BankAccountListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.kimmosoft.bankwallet.AccountListActivity" />
+                android:value=".BankAccountListActivity" />
         </activity>
         <activity
             android:name=".FriendEditName"
             android:label="@string/title_activity_friend_edit_name"
-            android:parentActivityName=".AccountListActivity"
+            android:parentActivityName=".BankAccountListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.kimmosoft.bankwallet.AccountListActivity" />
+                android:value=".BankAccountListActivity" />
         </activity>
     </application>
 

@@ -1,26 +1,21 @@
 package com.kimmosoft.bankwallet;
 
 import android.app.AlertDialog;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import com.kimmosoft.bankwallet.src.BankAccount;
@@ -28,17 +23,8 @@ import com.kimmosoft.bankwallet.src.RealmHelper;
 
 import java.util.List;
 
-import io.realm.Realm;
 
-/**
- * An activity representing a list of Accounts. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link AccountDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
-public class AccountListActivity extends AppCompatActivity {
+public class BankAccountListActivity extends AppCompatActivity {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -50,7 +36,7 @@ public class AccountListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_list);
+        setContentView(R.layout.activity_bank_account_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.accountlist_toolbar);
         setSupportActionBar(toolbar);
@@ -69,10 +55,8 @@ public class AccountListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),AccountAddNew.class);
+                Intent intent = new Intent(getApplicationContext(),BankAccountAddNew.class);
                 intent.putExtra("friendid", friendid);
-                //startActivity(intent);
-               // startActivityFromChild(this,intent,2);
 
                 startActivity(intent);
             }
@@ -99,13 +83,7 @@ public class AccountListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. Use NavUtils to allow users
-            // to navigate up one level in the application structure. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
+
             finish();
             return true;
         }
@@ -122,7 +100,7 @@ public class AccountListActivity extends AppCompatActivity {
         if (requestCode == RESULT_OK && resultCode == RESULT_OK && data != null) {
             friendid = data.getExtras().getInt("friendid");
             recreate();
-            Log.d("onActivityResult","back from intent!");
+            Log.d("onActivityResult", "back from intent!");
 
         }
     }
@@ -143,7 +121,7 @@ public class AccountListActivity extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.account_list_content, parent, false);
+                    .inflate(R.layout.bank_account_list_content, parent, false);
             return new ViewHolder(view);
         }
 
@@ -158,11 +136,11 @@ public class AccountListActivity extends AppCompatActivity {
                     AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
                     alert.setTitle("Confirmation");
                     alert.setMessage("Are you sure to delete account");
-                    alert.setPositiveButton("YES", new  DialogInterface.OnClickListener() {
+                    alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            realmHelper.removeAccount(friendid,mValues.get(position).getId());
+                            realmHelper.removeAccount(friendid, mValues.get(position).getId());
                             recreate();
                             dialog.dismiss();
 
@@ -189,7 +167,7 @@ public class AccountListActivity extends AppCompatActivity {
                 public void onClick(View v) {
 
                         Context context = v.getContext();
-                        Intent intent = new Intent(context, AccountAddNew.class);
+                        Intent intent = new Intent(context, BankAccountAddNew.class);
                         intent.putExtra("accountid", holder.mItem.getId());
 
                         context.startActivity(intent);

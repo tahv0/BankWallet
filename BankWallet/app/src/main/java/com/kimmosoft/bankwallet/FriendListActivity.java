@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,16 +21,7 @@ import com.kimmosoft.bankwallet.src.RealmHelper;
 
 import java.util.List;
 
-import io.realm.Realm;
 
-/**
- * An activity representing a list of Friends. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link FriendDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
 public class FriendListActivity extends AppCompatActivity {
 
     /**
@@ -108,7 +98,7 @@ public class FriendListActivity extends AppCompatActivity {
                 public void onClick(View v) {
 
                     Context context = v.getContext();
-                    Intent intent = new Intent(context, AccountListActivity.class);
+                    Intent intent = new Intent(context, BankAccountListActivity.class);
                     intent.putExtra("friendid", holder.mItem.getId());
 
                     context.startActivity(intent);
