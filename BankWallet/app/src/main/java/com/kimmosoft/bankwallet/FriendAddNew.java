@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,13 +30,11 @@ public class FriendAddNew extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         this.realmHelper = new RealmHelper(getApplicationContext());
         this.validator = new Validator();
-        validator.validIBAN("FI4250001510000023");
         if (actionBar != null){
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Add new friend");
         }
-        button = ( Button) findViewById(R.id.firend_new_save_button);
-        button.setOnClickListener(new saveButtonActivity());
+
 
     }
     @Override
@@ -46,11 +45,20 @@ public class FriendAddNew extends AppCompatActivity {
             finish();
             return true;
         }
+        else if (id == R.id.action_save){
+            saveButtonActivity(this.findViewById(android.R.id.content));
+
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
-    public class saveButtonActivity implements View.OnClickListener{
-        @Override
-        public void onClick(View v) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.save, menu);
+        return true;
+    }
+    public void saveButtonActivity (View v){
+
             EditText nameText = (EditText) findViewById(R.id.friend_name_editText);
             EditText ibanText = (EditText) findViewById(R.id.iban_editText);
             EditText declarationText = (EditText) findViewById(R.id.iban_declaration_editText);
@@ -62,15 +70,16 @@ public class FriendAddNew extends AppCompatActivity {
 
             }
             if (!validator.validIBAN(ibanText.getText().toString())){
-                Snackbar.make(v, "Not valid IBAN. It must be valid iban and it contains 2 letters and 16 digits", Snackbar.LENGTH_LONG)
+                Snackbar.make(v, "Not valid IBAN. It must be valid and it has to contain 2 letters and 13-34 digits", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 return;
+
             }
             realmHelper.addFriend(nameText.getText().toString(), ibanText.getText().toString(), declarationText.getText().toString());
 
         }
 
 
-    }
+
 
 }
